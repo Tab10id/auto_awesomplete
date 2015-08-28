@@ -47,7 +47,7 @@ You can test compatibility with other versions by yourself.
 
 Use [AutoAwesomplete2Tag](https://github.com/Tab10id/auto_awesomplete_tag). It provide helper:
 
-* ajax_awesomplete_tag
+* awesomplete_ajax_tag
 
 and you can define ajax awesomplete element like any other view elements in rails.
 
