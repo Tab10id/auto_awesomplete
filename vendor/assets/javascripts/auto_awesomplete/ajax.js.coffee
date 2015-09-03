@@ -31,4 +31,13 @@
 
 jQuery ($) ->
   autoAwesomplete.ajaxInit()
+
+  $body = $('body')
+  $body.on 'ajaxSuccess', ->
+    autoAwesomplete.ajaxInit()
+    return
+
+  $body.on 'cocoon:after-insert', ->
+    autoAwesomplete.ajaxInit()
+    return
   return
