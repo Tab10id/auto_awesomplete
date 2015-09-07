@@ -6,7 +6,7 @@
       data: { term: term }
       ,
       success: (data) ->
-        awesomplete.list = JSON.parse(data)
+        awesomplete.list = data
         awesomplete.evaluate()
         return
     })

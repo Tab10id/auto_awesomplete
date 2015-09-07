@@ -106,7 +106,7 @@ or
     class SystemRoleSearchAdapter < AutoAwesomplete::SearchAdapter::Base
       class << self
         def search_default(term, page, options)
-          roles = default_finder(SystemRole, term, page: page).pluck(:name).to_json
+          roles = default_finder(SystemRole, term, page: page).pluck(:name)
         end
       end
     end
