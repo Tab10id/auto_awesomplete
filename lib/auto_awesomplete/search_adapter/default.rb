@@ -11,7 +11,7 @@ module AutoAwesomplete
 
           default_values = default_finder(default_arel, term, page: page, column: options[:default_text_column])
           default_values.map do |default_value|
-            get_awesomplete_label(default_value, options[:label_method])
+            get_awesomplete_label(default_value, options)
           end
         end
       end

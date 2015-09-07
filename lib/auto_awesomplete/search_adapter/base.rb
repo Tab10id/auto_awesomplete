@@ -56,15 +56,16 @@ module AutoAwesomplete
           end
         end
 
-        def get_awesomplete_label(item, label_method)
+        def get_awesomplete_label(item, options)
+          label_method = options[:label_method]
+          text_column = options[:default_text_column]
+
           if label_method.present? && item.respond_to?(label_method)
             item.public_send(label_method)
+          elsif text_column.present? && text_column.is_a?(String)
+            item.attributes[text_column]
           else
-            if item.respond_to?(:to_awesomplete)
-              item.to_awesomplete
-            else
-              item.to_s
-            end
+            item.to_s
           end
         end
       end
