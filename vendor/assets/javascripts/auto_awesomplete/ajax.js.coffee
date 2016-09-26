@@ -32,7 +32,7 @@
 jQuery ($) ->
   autoAwesomplete.ajaxInit()
 
-  $body = $('body')
+  $body = $(document)
   $body.on 'ajaxSuccess', ->
     autoAwesomplete.ajaxInit()
     return
