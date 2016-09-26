@@ -17,8 +17,14 @@ module AutoAwesomplete
       private
 
         def default_finder(searched_class, term, options)
-          columns = options[:column].present? ? options[:column] : 'name'
-          conditions = default_search_conditions(term, options[:basic_conditions], columns)
+          columns = options[:columns].present? ? options[:columns] : 'name'
+          conditions =
+              default_search_conditions(
+                  term,
+                  options[:basic_conditions],
+                  columns,
+                  options.slice(:case_sensitive)
+              )
 
           if term.nil?
             [ searched_class.where(options[:basic_conditions]) ]
@@ -30,7 +36,7 @@ module AutoAwesomplete
           end
         end
 
-        def default_search_conditions(term, basic_conditions, columns)
+        def default_search_conditions(term, basic_conditions, columns, options = {})
           term_filter = ''
           conditions = []
 
@@ -45,7 +51,13 @@ module AutoAwesomplete
 
               columns.each_with_index do |column, idx|
                 term_filter += ' OR ' if idx > 0
-                term_filter +=  "#{column} LIKE ?"
+
+                if options[:case_sensitive]
+                  term_filter += "#{column} LIKE ?"
+                else
+                  term_filter += "LOWER(#{column}) LIKE LOWER(?)"
+                end
+
                 conditions << "%#{word}%"
               end
             end
@@ -58,12 +70,15 @@ module AutoAwesomplete
 
         def get_awesomplete_label(item, options)
           label_method = options[:label_method]
-          text_column = options[:default_text_column]
+          text_columns = options[:default_text_columns]
+          if text_columns.is_a?(String)
+            text_columns = text_columns.split(',').map(&:squish)
+          end
 
           if label_method.present? && item.respond_to?(label_method)
             item.public_send(label_method)
-          elsif text_column.present? && text_column.is_a?(String)
-            item.attributes[text_column]
+          elsif text_columns.present?
+            text_columns.map { |attr| item.attributes[attr.to_s] }.join(' ')
           else
             item.to_s
           end

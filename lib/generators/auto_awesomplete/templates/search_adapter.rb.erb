@@ -1,0 +1,6 @@
+class <%= name.classify %>SearchAdapter < AutoAwesomplete::SearchAdapter::Default
+  searchable <%= name.classify %>
+  text_columns <%= text_columns.join(', ') %>
+  <% if label_method.present? %>label_method :<%= label_method %><% end %>
+  <% if case_sensitive.present? %>case_sensitive <%= case_sensitive %><% end %>
+end
