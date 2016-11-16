@@ -17,7 +17,13 @@
     $inputs = $(':not(.awesomplete) > input.auto-ajax-awesomplete')
     $inputs.each ->
       $input = $(this)
-      awesomplete = new Awesomplete(this)
+      awesomplete = new Awesomplete(
+        this,
+        {
+          filter: ->
+            true
+        }
+      )
       $input.on 'input', ->
         $textInput = $(this)
         path = $textInput.data('awesomplete-href')
