@@ -64,7 +64,8 @@ module AutoAwesomplete
 
             term_filter = term_filter.empty? ? nil : "(#{term_filter})"
             basic_conditions_part = basic_conditions.present? ? "(#{basic_conditions }) " : nil
-            conditions.unshift([term_filter, basic_conditions_part].compact.join(' AND '))
+            term_and_basic_conditions = [term_filter, basic_conditions_part].compact.join(' AND ')
+            conditions.unshift(term_and_basic_conditions) if term_and_basic_conditions.present?
           end
         end
 
